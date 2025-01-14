@@ -9,6 +9,9 @@ makepkg -sf --noconfirm
 if [ $2 -eq "true" ]; then
   echo building repo db ...
   repo-add repo.db.tar.zst *.tar.zst
+  rm *.db *.files
+  mv repo.db.tar.zst repo.db
+  mv repo.files.tar.zst repo.files
 fi 
 
 chmod o+rw *.tar.zst
