@@ -12,6 +12,7 @@ if [ $2 = "true" ]; then
   rm *.db *.files
   mv repo.db.tar.zst repo.db
   mv repo.files.tar.zst repo.files
+  chmod o+rw repo.db repo.files
 fi 
 
 chmod o+rw *.tar.zst
