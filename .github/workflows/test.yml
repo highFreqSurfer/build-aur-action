@@ -9,4 +9,4 @@ jobs:
     - id: check_update
       uses: highFreqSurfer/build-aur-action@master
       with:
-        repo-name: linux-cachyos
+        repo-name: conservation_mode
