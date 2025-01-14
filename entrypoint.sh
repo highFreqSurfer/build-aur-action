@@ -6,7 +6,7 @@ git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
 makepkg -sf --noconfirm
 
-if [ $2 -eq "true" ]; then
+if [ $2 = "true" ]; then
   echo building repo db ...
   repo-add repo.db.tar.zst *.tar.zst
   rm *.db *.files
