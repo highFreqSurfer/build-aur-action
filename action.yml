@@ -7,9 +7,13 @@ inputs:
   repo-name:
     description: 'AUR repository name to build'
     required: true
-    default: 'qv2ray-dev-git'
+  build-repo-db:
+    description: 'build repo db for host custom single-package repo'
+    required: false
+    default: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.repo-name }}
+    - ${{ inputs.build-repo-db }}
