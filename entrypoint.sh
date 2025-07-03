@@ -4,7 +4,7 @@ set -x
 
 git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
-makepkg -sf --noconfirm
+makepkg -sf --noconfirm --skipchecksums
 
 if [ $2 = "true" ]; then
   echo building repo db ...
