@@ -2,6 +2,9 @@
 
 set -x
 
+echo print prameters ...
+echo "$@"
+
 git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
 makepkg -sf --noconfirm --skipchecksums
