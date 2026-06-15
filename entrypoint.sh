@@ -7,7 +7,6 @@ cd "$1"
 makepkg -sf --noconfirm --skipchecksums
 
 if [ "$?" != 0 ]; then
-  echo "pkg build failing.."
   exit $?
 fi
 
