@@ -5,17 +5,16 @@ set -x
 echo print prameters ...
 echo "$@"
 
+if [ "$3" != "" ]; then
+  eval "$3"
+fi
+
 git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
 makepkg -sf --noconfirm --skipchecksums
 
 if [ "$?" != 0 ]; then
   exit $?
-fi
-
-echo "$3"
-if [ "$3" != "" ]; then
-  eval "$3"
 fi
 
 if [ "$2" = "true" ]; then
