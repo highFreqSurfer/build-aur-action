@@ -6,7 +6,12 @@ git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
 makepkg -sf --noconfirm --skipchecksums
 
-if [ $2 = "true" ]; then
+if [ "$?" != 0 ]; then
+  echo "pkg build failing.."
+  exit $?
+fi
+
+if [ "$2" = "true" ]; then
   echo building repo db ...
   repo-add repo.db.tar.zst *.tar.zst
   rm *.db *.files
