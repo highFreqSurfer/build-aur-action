@@ -13,6 +13,7 @@ if [ "$?" != 0 ]; then
   exit $?
 fi
 
+echo "$3"
 if [ "$3" != "" ]; then
   eval "$3"
 fi
