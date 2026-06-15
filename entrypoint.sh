@@ -11,6 +11,10 @@ if [ "$?" != 0 ]; then
   exit $?
 fi
 
+if [ "$3" != "" ]; then
+  eval "$3"
+fi
+
 if [ "$2" = "true" ]; then
   echo building repo db ...
   repo-add repo.db.tar.zst *.tar.zst
