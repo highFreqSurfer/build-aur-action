@@ -9,14 +9,18 @@ if [ "$3" != "" ]; then
   eval "$3"
 fi
 
+doas su alpm -s /bin/sh -c"
+
 git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
-makepkg -sf --noconfirm --skipchecksums
+su makepkg -sf --noconfirm --skipchecksums
 ret="$?"
 
 if [ "$ret" != 0 ]; then
   exit $ret
 fi
+
+"
 
 if [ "$2" = "true" ]; then
   echo building repo db ...
