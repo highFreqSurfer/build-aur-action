@@ -12,6 +12,13 @@ echo "$@"
 
 WORKSPACE="${GITHUB_WORKSPACE:-/github/workspace}"
 
+# Both root (run-before-build) and builder (makepkg) must use the same gpg home,
+# otherwise keys imported as root are invisible when makepkg verifies signatures.
+export GNUPGHOME=/home/builder/.gnupg
+mkdir -p "$GNUPGHOME"
+chown -R builder:builder /home/builder
+chmod 700 "$GNUPGHOME"
+
 # 1. run-before-build: runs as root, used for pacman-key / pacman / gpg setup
 if [ -n "$3" ]; then
   eval "$3"
@@ -22,12 +29,9 @@ if [ -n "$3" ]; then
   fi
 fi
 
-# 2. hand over the gpg keys imported above, makepkg verifies source signatures
-if [ -d "${HOME}/.gnupg" ]; then
-  mkdir -p /home/builder/.gnupg
-  cp -a "${HOME}/.gnupg/." /home/builder/.gnupg/
-  chown -R builder:builder /home/builder/.gnupg
-fi
+# 2. keys were imported as root into builder's gpg home, hand ownership back
+chown -R builder:builder "$GNUPGHOME"
+echo "imported gpg keys: $(gpg --list-keys --with-colons 2>/dev/null | grep -c '^pub')"
 
 # 3. build as unprivileged user: makepkg refuses to run as root
 chown -R builder:builder "$WORKSPACE" /home/builder
@@ -35,6 +39,7 @@ chown -R builder:builder "$WORKSPACE" /home/builder
 export AUR_PKG="$1"
 su builder -s /bin/bash -c '
   set -e
+  export GNUPGHOME=/home/builder/.gnupg
   cd "$0"
   git clone "https://aur.archlinux.org/${AUR_PKG}.git"
   cd "${AUR_PKG}"
