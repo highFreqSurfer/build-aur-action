@@ -9,7 +9,7 @@ if [ "$3" != "" ]; then
   eval "$3"
 fi
 
-doas su alpm -s /bin/sh -c"
+su alpm -s /bin/sh -c"
 
 git clone "https://aur.archlinux.org/$1.git"
 cd "$1"
