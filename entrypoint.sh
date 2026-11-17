@@ -31,7 +31,7 @@ fi
 
 # 2. keys were imported as root into builder's gpg home, hand ownership back
 chown -R builder:builder "$GNUPGHOME"
-echo "imported gpg keys: $(gpg --list-keys --with-colons 2>/dev/null | grep -c '^pub')"
+su builder -s /bin/bash -c 'export GNUPGHOME=/home/builder/.gnupg; gpg --list-keys' || true
 
 # 3. build as unprivileged user: makepkg refuses to run as root
 chown -R builder:builder "$WORKSPACE" /home/builder
